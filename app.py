@@ -1,9 +1,20 @@
 import os
+import threading
+import time
+from datetime import datetime
 
 from flask import (Flask, redirect, render_template, request,
                    send_from_directory, url_for)
 
 app = Flask(__name__)
+
+
+def background_logger():
+    """Background function that logs datetime every 3 seconds."""
+    while True:
+        current_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        print(f'[Background Log] {current_time}')
+        time.sleep(3)
 
 
 @app.route('/')
@@ -29,4 +40,7 @@ def hello():
 
 
 if __name__ == '__main__':
+   # Start background logging thread
+   logging_thread = threading.Thread(target=background_logger, daemon=True)
+   logging_thread.start()
    app.run(port=8080)
