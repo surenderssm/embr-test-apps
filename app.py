@@ -17,11 +17,6 @@ def background_logger():
         time.sleep(3)
 
 
-# Start background logging thread
-logging_thread = threading.Thread(target=background_logger, daemon=True)
-logging_thread.start()
-
-
 @app.route('/')
 def index():
    print('Request for index page received')
@@ -45,4 +40,7 @@ def hello():
 
 
 if __name__ == '__main__':
+   # Start background logging thread
+   logging_thread = threading.Thread(target=background_logger, daemon=True)
+   logging_thread.start()
    app.run(port=8080)
